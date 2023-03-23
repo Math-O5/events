@@ -7,21 +7,34 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class CatalogoEventService {
 
     @Autowired
-    private final EventRepository eventRepository;
+    private EventRepository eventRepository;
 
     public Event findById(Long eventId) {
         return eventRepository.findById(eventId)
                 .orElseThrow(() -> new Error("Event não encontrado."));
     }
 
-    public Iterable<Event> findAll() {
+    public List<Event> findAll() {
         return eventRepository.findAll();
     }
+
+    @Transactional
+    public void delete(Event event) {
+        eventRepository.delete(event);
+    }
+
+    @Transactional
+    public void deleteById(Long eventId) {
+        eventRepository.deleteById(eventId);
+    }
+
     @Transactional
     public Event save(Event event) {
         boolean nameAlreadyPicked = eventRepository.findByName(event.getName())

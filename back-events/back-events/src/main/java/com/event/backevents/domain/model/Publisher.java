@@ -1,22 +1,18 @@
 package com.event.backevents.domain.model;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
-public class Event {
+@NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
+public class Publisher {
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.AUTO)
     private @Id Long id;
     private String name;
     private String codeName;
-
-    @ManyToOne
-    private User user;
-
 }
