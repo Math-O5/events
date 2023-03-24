@@ -16,8 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class userController {
-    private CatalogoUserService catalogoUserService;
-    private UserRepository userRepository;
+    private final CatalogoUserService catalogoUserService;
+    private final UserRepository userRepository;
 
     @GetMapping
     public List<User> listEvents() {

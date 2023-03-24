@@ -15,8 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/publishers")
 public class publisherController {
-    private CatalogoPublisherService catalogoPublisherService;
-    private PublisherRepository publisherRepository;
+    private final CatalogoPublisherService catalogoPublisherService;
+    private final PublisherRepository publisherRepository;
 
     @GetMapping
     public List<Publisher> listPublisher() {

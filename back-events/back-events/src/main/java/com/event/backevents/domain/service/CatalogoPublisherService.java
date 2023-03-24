@@ -13,8 +13,7 @@ import java.util.List;
 @Service
 public class CatalogoPublisherService {
 
-    @Autowired
-    private PublisherRepository publisherRepository;
+    private final PublisherRepository publisherRepository;
 
     public Publisher findById(Long userId) {
         return publisherRepository.findById(userId)
@@ -37,6 +36,13 @@ public class CatalogoPublisherService {
 
     @Transactional
     public Publisher save(Publisher publisher) {
+
+        boolean nameAlreadyPicked = publisherRepository.findByName(publisher.getName())
+                .stream()
+                .anyMatch(EventCreated -> !EventCreated.equals(publisher));
+        if(nameAlreadyPicked) {
+            throw new Error("Esse nome  já está em uso");
+        }
 
         return publisherRepository.save(publisher);
     }

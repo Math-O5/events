@@ -16,10 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/events")
 public class eventController {
-    @Autowired
-    private CatalogoEventService catalogoEventService;
-    @Autowired
-    private EventRepository eventRepository;
+    private final CatalogoEventService catalogoEventService;
+    private final EventRepository eventRepository;
 
     @GetMapping
     public List<Event> listEvents() {
@@ -33,7 +31,7 @@ public class eventController {
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<Event> searchClient1(@PathVariable Long eventId) {
+    public ResponseEntity<Event> searchClient(@PathVariable Long eventId) {
         return eventRepository.findById(eventId)
                                     .map(ResponseEntity::ok)
                                     .orElse(ResponseEntity.notFound().build());

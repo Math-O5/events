@@ -16,7 +16,7 @@ public class Event {
     private String name;
     private String codeName;
 
-    @ManyToOne
-    private User user;
+    //@ManyToOne
+    //private Publisher publisher;
 
 }

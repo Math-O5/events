@@ -13,8 +13,7 @@ import java.util.List;
 @Service
 public class CatalogoEventService {
 
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     public Event findById(Long eventId) {
         return eventRepository.findById(eventId)

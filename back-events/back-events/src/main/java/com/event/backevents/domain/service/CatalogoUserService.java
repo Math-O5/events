@@ -13,8 +13,7 @@ import java.util.List;
 @Service
 public class CatalogoUserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public User findById(Long userId) {
         return userRepository.findById(userId)
