@@ -11,12 +11,12 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class Event {
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id Long id;
     private String name;
     private String codeName;
 
-    //@ManyToOne
-    //private Publisher publisher;
+    @ManyToOne
+    private Publisher publisher;
 
 }

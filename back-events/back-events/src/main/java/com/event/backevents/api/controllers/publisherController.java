@@ -1,5 +1,6 @@
 package com.event.backevents.api.controllers;
 
+import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.model.Publisher;
 import com.event.backevents.domain.repository.PublisherRepository;
 import com.event.backevents.domain.service.CatalogoPublisherService;
@@ -26,7 +27,7 @@ public class publisherController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Publisher addPublisher(@Valid @RequestBody Publisher publisher) {
-        return this.catalogoPublisherService.save(publisher);
+        return this.catalogoPublisherService.add(publisher);
     }
 
     @GetMapping("/{publisherId}")
@@ -44,10 +45,23 @@ public class publisherController {
         }
 
         publisher.setId(publisherId);
-        publisher = catalogoPublisherService.save(publisher);
+        publisher = catalogoPublisherService.add(publisher);
 
         return ResponseEntity.ok(publisher);
     }
+
+//    @PostMapping("/{publisherId}/event")
+//    public ResponseEntity<Publisher> addEventToPublisher(@PathVariable Long publisherId,
+//                                                     @Valid @RequestBody Event event) {
+//        if (!publisherRepository.existsById(publisherId)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        publisher.setId(publisherId);
+//        publisher = catalogoPublisherService.save(publisher);
+//
+//        return ResponseEntity.ok(publisher);
+//    }
 
     @DeleteMapping("/{publisherId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long publisherId) {

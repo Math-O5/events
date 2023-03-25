@@ -3,6 +3,7 @@ package com.event.backevents.api.controllers;
 import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.repository.EventRepository;
 import com.event.backevents.domain.service.CatalogoEventService;
+import com.event.backevents.domain.service.MarcarEventService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.List;
 public class eventController {
     private final CatalogoEventService catalogoEventService;
     private final EventRepository eventRepository;
+    private final MarcarEventService marcarEventService;
 
     @GetMapping
     public List<Event> listEvents() {
@@ -27,7 +29,7 @@ public class eventController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Event addEvent(@Valid @RequestBody Event event) {
-        return this.catalogoEventService.save(event);
+        return this.marcarEventService.marcar(event);
     }
 
     @GetMapping("/{eventId}")
