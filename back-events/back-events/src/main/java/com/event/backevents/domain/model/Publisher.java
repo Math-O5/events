@@ -19,5 +19,16 @@ public class Publisher {
     private String cnpj;
 
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
-    private List<Event> eventCollection = new ArrayList<>();
+    private Set<Event> eventCollection = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", eventCollection=" + eventCollection +
+                '}';
+    }
 }

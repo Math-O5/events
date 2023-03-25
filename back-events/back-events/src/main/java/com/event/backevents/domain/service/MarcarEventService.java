@@ -5,6 +5,7 @@ import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.model.Publisher;
 import com.event.backevents.domain.repository.EventRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,32 @@ public class MarcarEventService {
 
     @Transactional
     public Event marcar(Event event) {
-        //Publisher publisher = catalogoPublisherService.findById(event.getPublisher().getId());
 
-        // event.setPublisher(publisher);
-        // publisher.getEventCollection().add(event);
-        return event;
-       // return eventRepository.save(event);
+        System.out.println(event.getName());
+
+        Publisher publisher = catalogoPublisherService.findById(event.getPublisher().getId());
+
+        System.out.println("Flag");
+
+        if(publisher == null)
+            throw new RuntimeException("Publisher does not exist");
+
+        System.out.println("Flag2: " +  publisher.toString());
+        System.out.println("Flag2: " +  publisher.getEventCollection().toString());
+
+        publisher.getEventCollection().add(event);
+
+        System.out.println("Flag2: " +  publisher.getName());
+
+        Event newEvent = new Event();
+        newEvent.setPublisher(publisher);
+        newEvent.setName(event.getName());
+
+        System.out.println(event.getName());
+        // System.out.println("Flag3: " +  event);
+        System.out.println("Flag3: " +  event.getPublisher().toString());
+
+        return eventRepository.save(newEvent);
     }
 
 }

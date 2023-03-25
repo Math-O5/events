@@ -19,4 +19,13 @@ public class Event {
     @ManyToOne
     private Publisher publisher;
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", codeName='" + codeName + '\'' +
+                ", publisher=" + publisher.toString() +
+                '}';
+    }
 }
