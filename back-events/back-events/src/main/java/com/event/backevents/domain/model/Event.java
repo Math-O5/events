@@ -15,6 +15,9 @@ public class Event {
     private @Id Long id;
     private String name;
     private String codeName;
+    // private String descricao;
+    // private Boolean isActive;
+    // private Float rate;
 
     @ManyToOne
     private Publisher publisher;
