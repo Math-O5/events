@@ -13,13 +13,17 @@ public class Event {
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id Long id;
+
+    @Column(nullable = false)
     private String name;
+
     private String codeName;
-    // private String descricao;
-    // private Boolean isActive;
-    // private Float rate;
+    private String descricao;
+    private Boolean isActive;
+    private Float rate;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Publisher publisher;
 
     @Override

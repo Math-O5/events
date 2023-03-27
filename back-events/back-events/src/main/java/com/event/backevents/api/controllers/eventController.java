@@ -1,5 +1,7 @@
 package com.event.backevents.api.controllers;
 
+import com.event.backevents.api.assembler.EventAssembler;
+import com.event.backevents.api.model.EventDto;
 import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.repository.EventRepository;
 import com.event.backevents.domain.service.CatalogoEventService;
@@ -20,27 +22,31 @@ public class eventController {
     private final CatalogoEventService catalogoEventService;
     private final EventRepository eventRepository;
     private final MarcarEventService marcarEventService;
+    private EventAssembler eventAssembler;
 
     @GetMapping
-    public List<Event> listEvents() {
-        return eventRepository.findAll();
+    public List<EventDto> listEvents() {
+        return eventAssembler.toCollectionModel(eventRepository.findAll());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Event addEvent(@Valid @RequestBody Event event) {
-        return this.marcarEventService.marcar(event);
+    public EventDto addEvent(@Valid @RequestBody Event event) {
+
+        Event scheduledEvent = this.marcarEventService.marcar(event);
+
+        return eventAssembler.toModel(scheduledEvent);
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<Event> searchClient(@PathVariable Long eventId) {
+    public ResponseEntity<EventDto> searchClient(@PathVariable Long eventId) {
         return eventRepository.findById(eventId)
-                                    .map(ResponseEntity::ok)
+                                    .map(event -> ResponseEntity.ok(eventAssembler.toModel(event)))
                                     .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{eventId}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId,
+    public ResponseEntity<EventDto> updateEvent(@PathVariable Long eventId,
                                              @Valid @RequestBody Event event) {
         if (!eventRepository.existsById(eventId)) {
             return ResponseEntity.notFound().build();
@@ -49,7 +55,7 @@ public class eventController {
         event.setId(eventId);
         event = catalogoEventService.save(event);
 
-        return ResponseEntity.ok(event);
+        return ResponseEntity.ok(eventAssembler.toModel(event));
     }
 
     @DeleteMapping("/{eventId}")

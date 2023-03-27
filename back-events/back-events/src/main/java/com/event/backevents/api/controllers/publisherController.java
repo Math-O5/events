@@ -1,13 +1,18 @@
 package com.event.backevents.api.controllers;
 
+import com.event.backevents.api.assembler.PublisherAssembler;
+import com.event.backevents.api.model.PublisherDto;
 import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.model.Publisher;
 import com.event.backevents.domain.repository.PublisherRepository;
 import com.event.backevents.domain.service.CatalogoPublisherService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,27 +23,31 @@ import java.util.List;
 public class publisherController {
     private final CatalogoPublisherService catalogoPublisherService;
     private final PublisherRepository publisherRepository;
+    private PublisherAssembler publisherAssembler;
 
     @GetMapping
-    public List<Publisher> listPublisher() {
-        return publisherRepository.findAll();
+    public List<PublisherDto> listPublisher() {
+        return publisherAssembler.toCollectionModel(publisherRepository.findAll());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Publisher addPublisher(@Valid @RequestBody Publisher publisher) {
-        return this.catalogoPublisherService.add(publisher);
+    public PublisherDto addPublisher(@Valid @RequestBody Publisher publisher) {
+
+        Publisher newPublisher = this.catalogoPublisherService.add(publisher);
+
+        return publisherAssembler.toModel(newPublisher);
     }
 
     @GetMapping("/{publisherId}")
-    public ResponseEntity<Publisher> searchPublisher(@PathVariable Long publisherId) {
+    public ResponseEntity<PublisherDto> searchPublisher(@PathVariable Long publisherId) {
         return publisherRepository.findById(publisherId)
-                                    .map(ResponseEntity::ok)
+                                    .map(publisher -> ResponseEntity.ok(publisherAssembler.toModel(publisher)))
                                     .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{publisherId}")
-    public ResponseEntity<Publisher> updatePublisher(@PathVariable Long publisherId,
+    public ResponseEntity<PublisherDto> updatePublisher(@PathVariable Long publisherId,
                                              @Valid @RequestBody Publisher publisher) {
         if (!publisherRepository.existsById(publisherId)) {
             return ResponseEntity.notFound().build();
@@ -47,7 +56,7 @@ public class publisherController {
         publisher.setId(publisherId);
         publisher = catalogoPublisherService.add(publisher);
 
-        return ResponseEntity.ok(publisher);
+        return ResponseEntity.ok(publisherAssembler.toModel(publisher));
     }
 
 //    @PostMapping("/{publisherId}/event")
@@ -73,5 +82,4 @@ public class publisherController {
 
         return ResponseEntity.noContent().build();
     }
-
 }

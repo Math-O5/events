@@ -18,8 +18,8 @@ public class Publisher {
     private String cpf;
     private String cnpj;
 
-    //@OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
-    //private List<Event> eventCollection = new ArrayList<>();
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    private List<Event> eventCollection = new ArrayList<>();
 
     // @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     // private Set<Event> eventOffCollection = new HashSet<>();
