@@ -5,20 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f78b0c3-349c-449d-a73b-8716ce814905" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/event/backevents/BackEventsApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/event/backevents/controllers/eventController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/event/backevents/domain/model/Event.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/event/backevents/domain/model/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/event/backevents/domain/repository/EventRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/event/backevents/domain/service/CatalogoEventSerivce.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/event/backevents/BackEventsApplicationTests.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/model/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/service/MarcarEventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/api/controllers/eventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/api/controllers/eventController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/api/controllers/publisherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/api/controllers/publisherController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/model/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/model/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/model/Publisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/service/CatalogoPublisherService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-events/src/main/java/com/event/backevents/domain/service/CatalogoPublisherService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,13 +42,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/mathias.coelho/OneDrive - OPUS Software/Área de Trabalho/playgroundSpring/jornadaSpring/events/back-events/back-events"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mathias.coelho/OneDrive - OPUS Software/Área de Trabalho/playgroundSpring/jornadaSpring/events/back-events/back-events&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="back-events" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="back-events" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
