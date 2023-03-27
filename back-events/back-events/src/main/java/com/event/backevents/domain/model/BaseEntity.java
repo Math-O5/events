@@ -2,6 +2,7 @@ package com.event.backevents.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,9 +13,9 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
-    @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected @Id Long id;
 
     @Column(updatable = false)
     @CreationTimestamp

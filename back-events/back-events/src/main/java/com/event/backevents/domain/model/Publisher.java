@@ -29,10 +29,11 @@ public class Publisher {
         newEvent.setName(event.getName());
         newEvent.setCodeName(event.getCodeName());
         newEvent.setPublisher(this);
+        this.getEventCollection().add(newEvent);
 
         // default values
-        // newEvent.setIsActive(true);
-        // newEvent.setRate(0f);
+        newEvent.setIsActive(true);
+        newEvent.setRate(0f);
 
         return newEvent;
     }
@@ -44,7 +45,7 @@ public class Publisher {
                 ", name='" + name + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", cnpj='" + cnpj + '\'' +
-      //          ", eventCollection=" + eventCollection +
+                ", eventCollection=" + eventCollection.toString() +
                 '}';
     }
 }

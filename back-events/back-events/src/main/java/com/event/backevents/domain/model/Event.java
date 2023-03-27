@@ -9,10 +9,7 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
-public class Event {
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private @Id Long id;
+public class Event extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
