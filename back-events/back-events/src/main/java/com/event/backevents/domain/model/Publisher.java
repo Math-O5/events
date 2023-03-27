@@ -10,10 +10,8 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
-public class Publisher {
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private @Id Long id;
+public class Publisher extends BaseEntity {
+
     private String name;
     private String cpf;
     private String cnpj;
