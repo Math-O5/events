@@ -1,6 +1,7 @@
 package com.event.backevents.api.assembler;
 
 import com.event.backevents.api.model.EventDto;
+import com.event.backevents.api.model.LocationDto;
 import com.event.backevents.api.model.PublisherDto;
 import com.event.backevents.api.model.input.EventInput;
 import com.event.backevents.api.model.input.PublisherInput;
