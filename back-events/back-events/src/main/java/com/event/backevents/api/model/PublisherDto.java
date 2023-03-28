@@ -1,5 +1,6 @@
 package com.event.backevents.api.model;
 
+import com.event.backevents.domain.model.Location;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,6 @@ import java.util.List;
 public class PublisherDto {
     private Long id;
     private String name;
-
     private List<EventIdDto> eventCollection;
+    private Location location;
 }
