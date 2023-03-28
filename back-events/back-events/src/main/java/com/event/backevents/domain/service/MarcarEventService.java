@@ -23,32 +23,21 @@ public class MarcarEventService {
     @Transactional
     public Event marcar(Event event) {
 
-        System.out.println(event.getName());
-
         Publisher publisher = catalogoPublisherService.findById(event.getPublisher().getId());
-
-        System.out.println("Flag");
 
         if(publisher == null)
             throw new RuntimeException("Publisher does not exist");
 
-
         // publisher.getEventCollection().add(event);
 
-        System.out.println("Flag2: " +  publisher.getName());
-
-        Event newEvent = new Event();
-        newEvent.setPublisher(publisher);
-        newEvent.setName(event.getName());
-        newEvent = eventRepository.save(event);
+//        Event newEvent = new Event();
+//        newEvent.setPublisher(publisher);
+//        newEvent.setName(event.getName());
+//        newEvent = eventRepository.save(event);
         //publisher.getEventCollection().add(newEvent);
         //publisherRepository.save(publisher);
 
-        //System.out.println(event.getName());
-        // System.out.println("Flag3: " +  event);
-        //System.out.println("Flag3: " +  event.getPublisher().toString());
-
-        return newEvent;
+        return eventRepository.save(publisher.createNewEvent(event));
     }
 
 }
