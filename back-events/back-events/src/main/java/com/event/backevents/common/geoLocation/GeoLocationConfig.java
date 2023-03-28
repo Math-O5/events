@@ -3,6 +3,7 @@ package com.event.backevents.common.geoLocation;
 import com.maxmind.db.Reader;
 import com.maxmind.geoip2.DatabaseReader;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -15,12 +16,13 @@ import java.io.InputStream;
 @Configuration
 public class GeoLocationConfig {
 
-    public static DatabaseReader reader = null;
+//    @Autowired
+    public static DatabaseReader reader;
     private final ResourceLoader resourceLoader;
 
     public GeoLocationConfig(ResourceLoader resourceLoader) { this.resourceLoader = resourceLoader; }
 
-    @Bean
+    //@Bean
     public DatabaseReader databaseReader() {
         try {
             log.info("GeoLocationConfig: Trying to load GeoLite2-Country database...");
@@ -28,7 +30,7 @@ public class GeoLocationConfig {
             Resource resource = resourceLoader.getResource("classpath: maxmind/GeoLite2-City.mmdb");
             InputStream dbAsStrem = resource.getInputStream();
 
-            return reader = new  DatabaseReader
+            return this.reader = new DatabaseReader
                                         .Builder(dbAsStrem)
                                         .fileMode(Reader.FileMode.MEMORY)
                                         .build();

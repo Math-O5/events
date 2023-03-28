@@ -5,8 +5,10 @@ package com.event.backevents.common.geoLocation;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,7 +19,8 @@ import java.net.InetAddress;
 @AllArgsConstructor
 public class GeoIPLocationServiceImpl implements GeoIPLocationService {
 
-    // private final DatabaseReader databaseReader;
+//    @Autowired
+//    private DatabaseReader databaseReader;
     private static final String UNKNOWN = "UNKNOWN";
 
 //    private String getDeviceDetails(String userAgent) throws IOException {
@@ -35,9 +38,12 @@ public class GeoIPLocationServiceImpl implements GeoIPLocationService {
 //    }
 
     @Override
-    public GeoIPModel getLocation(String ip) throws IOException, GeoIp2Exception {
+    public GeoIPModel getLocation(String ip, HttpServletRequest http) throws IOException, GeoIp2Exception {
         InetAddress ipAddress = InetAddress.getByName(ip);
-        CityResponse response = GeoLocationConfig.reader.city(ipAddress);
+        File database = new File("src/main/resources/maxmind/GeoLite2-City.mmdb");
+        DatabaseReader dbReader = new DatabaseReader.Builder(database).build();
+
+        CityResponse response =  dbReader.city(ipAddress);
 
         String cityName = response.getCity().getName();
         Double latitude = (response.getLocation() != null) ? response.getLocation().getLatitude() : 0;
