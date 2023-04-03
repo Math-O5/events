@@ -40,9 +40,9 @@ public class EventEditionController {
     @PostMapping
     public EventEditionDto addEvent(@PathVariable Long eventId, @Valid @RequestBody EventEdition eventEdition) {
 
-        if (!eventRepository.existsById(eventId)) {
+//        if (!eventRepository.existsById(eventId)) {
 //            return ResponseEntity.notFound().build();
-        }
+//        }
 
         EventEdition scheduledEvent = catalogoEventEditionService.marcar(eventId, eventEdition);
 
