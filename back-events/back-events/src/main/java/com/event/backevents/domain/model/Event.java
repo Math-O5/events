@@ -32,6 +32,7 @@ public class Event extends BaseEntity {
         EventEdition newEventEdition = new EventEdition();
         newEventEdition.setName(eventEdition.getName());
         newEventEdition.setDescricao(eventEdition.getDescricao());
+        newEventEdition.setLocation(eventEdition.getLocation());
         newEventEdition.setEvent(this);
         this.getEventEditionCollection().add(newEventEdition);
 

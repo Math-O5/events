@@ -16,8 +16,12 @@ public class Publisher extends BaseEntity {
     private String cpf;
     private String cnpj;
 
+
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     private List<Event> eventCollection = new ArrayList<>();
+
+    @Embedded
+    Location location;
 
     // @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     // private Set<Event> eventOffCollection = new HashSet<>();
