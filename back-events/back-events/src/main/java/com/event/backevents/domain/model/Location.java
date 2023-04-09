@@ -18,8 +18,13 @@ public class Location {
     private String city;
 
     @NotBlank
+    private String state;
+
+    @NotBlank
     private String postalCode;
 
+    private String formattedAddress;
+
     private Double lat;
-    private Double lon;
+    private Double lng;
 }

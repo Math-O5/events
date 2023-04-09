@@ -1,20 +1,20 @@
 package com.event.backevents.domain.model;
 
 import com.event.backevents.api.exceptionhandler.NoAvailableTicketException;
+import com.event.backevents.api.model.LocationDto;
 import com.event.backevents.domain.model.status.StatusTicket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.*;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
 public class EventEdition extends BaseEntity {
 
     @Column(nullable = false)
