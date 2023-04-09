@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PublisherDto {
+public class UserDto {
     private Long id;
     private String name;
     private List<EventIdDto> eventCollection;

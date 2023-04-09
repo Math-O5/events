@@ -11,6 +11,7 @@ public class EventEditionDto {
     private Long id;
     private String name;
     private String descricao;
+    private Integer qtdTickets;
     private Float rate;
     private Location location;
 }

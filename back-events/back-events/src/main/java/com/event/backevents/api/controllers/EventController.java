@@ -1,10 +1,11 @@
 package com.event.backevents.api.controllers;
 
 import com.event.backevents.api.assembler.EventAssembler;
+import com.event.backevents.api.exceptionhandler.ResourceNotFoundException;
 import com.event.backevents.api.model.EventDto;
 import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.repository.EventRepository;
-import com.event.backevents.domain.repository.PublisherRepository;
+import com.event.backevents.domain.repository.UserRepository;
 import com.event.backevents.domain.service.CatalogoEventService;
 import com.event.backevents.domain.service.MarcarEventService;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ import java.util.List;
 public class EventController {
     private final CatalogoEventService catalogoEventService;
     private final EventRepository eventRepository;
-    private PublisherRepository publisherRepository;
+    private UserRepository userRepository;
     private final MarcarEventService marcarEventService;
     private EventAssembler eventAssembler;
 
@@ -34,9 +35,8 @@ public class EventController {
     @ResponseStatus(HttpStatus.CREATED)
     public EventDto addEvent(@Valid @RequestBody Event event) {
 
-        if (!publisherRepository.existsById(event.getPublisher().getId())) {
-//            throw new Exception();
-//            return ResponseEntity. status(HttpStatus.CREATED);
+        if (!userRepository.existsById(event.getUser().getId())) {
+            throw new ResourceNotFoundException("This user does not exist");
         }
 
         Event scheduledEvent = this.marcarEventService.marcar(event);

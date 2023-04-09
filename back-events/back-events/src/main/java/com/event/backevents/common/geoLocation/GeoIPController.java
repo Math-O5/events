@@ -18,7 +18,7 @@ public class GeoIPController {
     }
 
     @GetMapping("/geoIP/{ipAddress}")
-    public GeoIPModel getLocation(@PathVariable String ipAddress, HttpServletRequest request
+    public GeoIPModel getCurrentLocation(@PathVariable String ipAddress, HttpServletRequest request
     ) throws IOException, GeoIp2Exception {
         return geoIPLocationService.getLocation(ipAddress, request);
     }
