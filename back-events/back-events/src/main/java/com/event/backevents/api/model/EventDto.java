@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class EventDto {
-    private Long Id;
     private String name;
     private UserIdDto user;
     private List<EventEditionIdDto> eventEditionCollection;

@@ -3,14 +3,16 @@ package com.event.backevents.domain.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
-@SuperBuilder
 @Table(name = "users")
 public class User extends BaseEntity {
 

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity implements Serializable {
 
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected @Id Long id;
 
     @Column(updatable = false)
