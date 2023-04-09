@@ -2,27 +2,32 @@ package com.event.backevents.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
-public class Publisher extends BaseEntity {
+@NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
+@SuperBuilder
+@Table(name = "users")
+public class User extends BaseEntity {
 
     private String name;
     private String cpf;
     private String cnpj;
 
-
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Event> eventCollection = new ArrayList<>();
 
     @Embedded
     Location location;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Ticket> ticketList  = new ArrayList<>();
+
+    // alternative way using hashmap
     // @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     // private Set<Event> eventOffCollection = new HashSet<>();
 
@@ -30,7 +35,7 @@ public class Publisher extends BaseEntity {
         Event newEvent = new Event();
         newEvent.setName(event.getName());
         newEvent.setCodeName(event.getCodeName());
-        newEvent.setPublisher(this);
+        newEvent.setUser(this);
         this.getEventCollection().add(newEvent);
 
         // default values
@@ -42,7 +47,7 @@ public class Publisher extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Publisher{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", cpf='" + cpf + '\'' +

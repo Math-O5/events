@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PublisherIdDto {
+public class UserIdDto {
     private Long id;
 }

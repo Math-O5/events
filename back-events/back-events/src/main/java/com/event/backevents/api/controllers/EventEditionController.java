@@ -3,13 +3,10 @@ package com.event.backevents.api.controllers;
 
 import com.event.backevents.api.assembler.EventAssembler;
 import com.event.backevents.api.assembler.EventEditionAssembler;
-import com.event.backevents.api.model.EventDto;
 import com.event.backevents.api.model.EventEditionDto;
-import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.model.EventEdition;
 import com.event.backevents.domain.repository.EventRepository;
 import com.event.backevents.domain.service.CatalogoEventEditionService;
-import com.event.backevents.domain.service.CatalogoEventService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,16 +33,18 @@ public class EventEditionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    //@ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public EventEditionDto addEvent(@PathVariable Long eventId, @Valid @RequestBody EventEdition eventEdition) {
+    public ResponseEntity<EventEditionDto> addEvent(@PathVariable Long eventId, @Valid @RequestBody EventEdition eventEdition) {
 
-//        if (!eventRepository.existsById(eventId)) {
-//            return ResponseEntity.notFound().build();
-//        }
+        if (!eventRepository.existsById(eventId)) {
+            return ResponseEntity.notFound().build();
+        }
 
         EventEdition scheduledEvent = catalogoEventEditionService.marcar(eventId, eventEdition);
 
-        return eventEditionAssembler.toModel(scheduledEvent);
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventEditionAssembler.toModel(scheduledEvent));
     }
+
+
 }

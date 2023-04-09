@@ -4,7 +4,6 @@ import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.repository.EventRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

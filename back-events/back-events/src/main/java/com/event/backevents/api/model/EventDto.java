@@ -10,6 +10,6 @@ import java.util.List;
 public class EventDto {
     private Long Id;
     private String name;
-    private PublisherIdDto publisher;
+    private UserIdDto user;
     private List<EventEditionIdDto> eventEditionCollection;
 }

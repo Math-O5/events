@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
@@ -23,7 +21,7 @@ public class Event extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Publisher publisher;
+    private User user;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventEdition> eventEditionCollection = new ArrayList<>();
@@ -33,12 +31,14 @@ public class Event extends BaseEntity {
         newEventEdition.setName(eventEdition.getName());
         newEventEdition.setDescricao(eventEdition.getDescricao());
         newEventEdition.setLocation(eventEdition.getLocation());
+        newEventEdition.setQtdTickets(eventEdition.getQtdTickets());
         newEventEdition.setEvent(this);
         this.getEventEditionCollection().add(newEventEdition);
 
         System.out.println(this.getEventEditionCollection().toString());
 
         // default values
+        newEventEdition.setQtdLockedTickets(0);
         newEventEdition.setRate(0f);
 
         return newEventEdition;
@@ -50,7 +50,7 @@ public class Event extends BaseEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", codeName='" + codeName + '\'' +
-                ", publisher=" + publisher.toString() +
+                ", user=" + user.toString() +
                 '}';
     }
 }
