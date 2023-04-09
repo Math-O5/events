@@ -4,10 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public class LocationDto {
 
-    private String street;
-    private Integer number;
-    private String city;
-    private String state;
-    private String postalCode;
+    private String formattedAddress;
+    private Double lat;
+    private Double lng;
 
 }
