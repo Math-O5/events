@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
+
 @Getter @Setter
 @Embeddable
 public class Location {
