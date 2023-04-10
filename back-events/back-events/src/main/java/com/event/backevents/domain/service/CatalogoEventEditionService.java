@@ -3,11 +3,16 @@ package com.event.backevents.domain.service;
 import com.event.backevents.common.googleGeoLocation.GeoLocationServiceImpl;
 import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.model.EventEdition;
+import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.EventEditionRepository;
 import com.event.backevents.domain.repository.EventRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service

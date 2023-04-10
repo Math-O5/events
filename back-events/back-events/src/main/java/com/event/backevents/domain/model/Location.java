@@ -27,8 +27,6 @@ public class Location {
 
     private String formattedAddress;
 
-    private Point point;
-
     private Double lat;
     private Double lng;
 }
