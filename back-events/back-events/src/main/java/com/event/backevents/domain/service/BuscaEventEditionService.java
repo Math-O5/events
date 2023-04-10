@@ -4,13 +4,17 @@ import com.event.backevents.domain.model.EventEdition;
 import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.EventEditionRepository;
 import com.event.backevents.domain.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@AllArgsConstructor
+@Service
 public class BuscaEventEditionService {
     private EventEditionRepository eventEditionRepository;
     private UserRepository userRepository;
