@@ -39,14 +39,17 @@ public class EventEditionController {
         return ResponseEntity.ok(eventEditionAssembler.toCollectionModel(editionList));
     }
 
-    @GetMapping("edition/nearby?")
+    @GetMapping("edition/nearby")
     public ResponseEntity<List<EventEditionDto>> searchEditionsNearByUbser(@RequestParam(value = "userId") Long userId) {
         Optional<User> user = userRepository.findById(userId);
 
         if(user.isEmpty())
             return ResponseEntity.notFound().build();
 
-        List<EventEdition> editionList = eventEditionRepository.findAllByLocation(user.get().getLocation()).get();
+        Double lat = user.get().getLocation().getLat();
+        Double lng = user.get().getLocation().getLng();
+
+        List<EventEdition> editionList = eventEditionRepository.findAllByLocation(lat, lng).get();
 
         return ResponseEntity.ok(eventEditionAssembler.toCollectionModel(editionList));
     }

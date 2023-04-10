@@ -18,13 +18,14 @@ public interface EventEditionRepository extends JpaRepository<EventEdition, Long
 
     // 3959 miles
     // 6371 km
+    // https://stackoverflow.com/questions/7783684/select-coordinates-which-fall-within-a-radius-of-a-central-point
     @Query(value="SELECT * FROM EVENT_EDITION E WHERE (" +
-            "acos(sin(E.lat * 0.0175) * sin(:location.lat * 0.0175) " +
-            "+ cos(E.lat * 0.0175) * cos(:location.lat * 0.0175) *" +
-            "cos((:location.lgn * 0.0175) - (E.lgn * 0.0175))" +
+            "acos(sin(E.lat * 0.0175) * sin(:lat * 0.0175) " +
+            "+ cos(E.lat * 0.0175) * cos(:lat * 0.0175) *" +
+            "cos((:lng * 0.0175) - (E.lng * 0.0175))" +
             ") * 6371 <= 10" +
             ")", nativeQuery = true)
-    Optional<List<EventEdition>> findAllByLocation(@Param("location") Location location);
+    Optional<List<EventEdition>> findAllByLocation(@Param("lat") Double lat, @Param("lng") Double lng);
 
     // Optional<List<EventEdition>> findAllByLocation(@Param("bounds") Geometry bounds, Pageable pageble);
 }
