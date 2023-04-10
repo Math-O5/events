@@ -5,8 +5,10 @@ import com.event.backevents.api.assembler.EventAssembler;
 import com.event.backevents.api.assembler.EventEditionAssembler;
 import com.event.backevents.api.model.EventEditionDto;
 import com.event.backevents.domain.model.EventEdition;
+import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.EventEditionRepository;
 import com.event.backevents.domain.repository.EventRepository;
+import com.event.backevents.domain.repository.UserRepository;
 import com.event.backevents.domain.service.CatalogoEventEditionService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -24,6 +27,7 @@ public class EventEditionController {
     private EventRepository eventRepository;
     private EventAssembler eventAssembler;
     private EventEditionRepository eventEditionRepository;
+    private UserRepository userRepository;
 
     private CatalogoEventEditionService catalogoEventEditionService;
     private EventEditionAssembler eventEditionAssembler;
@@ -31,6 +35,18 @@ public class EventEditionController {
     @GetMapping("/edition")
     public ResponseEntity<List<EventEditionDto>> searchEditions() {
         List<EventEdition> editionList = eventEditionRepository.findAll();
+
+        return ResponseEntity.ok(eventEditionAssembler.toCollectionModel(editionList));
+    }
+
+    @GetMapping("edition/nearby?")
+    public ResponseEntity<List<EventEditionDto>> searchEditionsNearByUbser(@RequestParam(value = "userId") Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+
+        if(user.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        List<EventEdition> editionList = eventEditionRepository.findAllByLocation(user.get().getLocation()).get();
 
         return ResponseEntity.ok(eventEditionAssembler.toCollectionModel(editionList));
     }

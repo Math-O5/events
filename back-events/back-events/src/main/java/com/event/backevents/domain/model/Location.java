@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
+
 @Getter @Setter
 @Embeddable
 public class Location {
@@ -24,6 +26,8 @@ public class Location {
     private String postalCode;
 
     private String formattedAddress;
+
+    private Point point;
 
     private Double lat;
     private Double lng;
