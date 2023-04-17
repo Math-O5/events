@@ -1,6 +1,7 @@
 package com.event.backevents.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,9 +14,11 @@ import java.util.List;
 @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
+@SuperBuilder
 @Table(name = "users")
 public class User extends BaseEntity {
 
+    @NotBlank
     private String name;
     private String cpf;
     private String cnpj;

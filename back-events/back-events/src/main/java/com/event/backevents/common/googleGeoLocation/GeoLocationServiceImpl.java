@@ -24,9 +24,10 @@ public class GeoLocationServiceImpl {
     private Environment env;
 
     public Optional<Location> getGeoCodingForLoc(Location locationParam) {
+
         RestTemplate restTemplate = new RestTemplate();
         Optional<Location> location = Optional.empty();
-        String address = locationParam.getStreet() + '+' + locationParam.getCity() + '+' + locationParam.getState();
+        String address = locationParam.toLocationSearch();
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(GEOCODING_URI).queryParam("address", address)
                 .queryParam("key", env.getProperty("apiKey"));
@@ -36,19 +37,17 @@ public class GeoLocationServiceImpl {
         GeoCoding geoCoding = restTemplate.getForObject(builder.toUriString(), GeoCoding.class);
         log.info(geoCoding.toString());
 
-        if (geoCoding.getGeoCodingResults().length == 0)
+        if (geoCoding.getGeoCodingResults().length == 0) {
             throw new ResourceNotFoundException("This address was not found.");
+        }
 
         // Copy param location and result (lat, lng) for the final object
         location = Optional.of(locationParam);
+
         location.get().setLat(geoCoding.getGeoCodingResults()[0].geometry.getLocation().getLat());
         location.get().setLng(geoCoding.getGeoCodingResults()[0].geometry.getLocation().getLng());
         location.get().setFormattedAddress(geoCoding.getGeoCodingResults()[0].formattedAddress);
 
         return location;
     }
-
-
-
-
 }

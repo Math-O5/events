@@ -5,12 +5,16 @@ import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.OffsetDateTime;
+
 @Getter
 @Setter
 public class EventEditionDto {
     private Long id;
     private String name;
     private String descricao;
+    private OffsetDateTime initDate;
+    private OffsetDateTime endDate;
     private Integer qtdTickets;
     private Float rate;
     private Location location;

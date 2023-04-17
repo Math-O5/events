@@ -26,8 +26,6 @@ public class TicketController {
     @PostMapping
     public ResponseEntity<TicketDto> reserverTicket(@PathVariable Long editionId, @PathVariable Long userId) {
 
-        String messageError = "EditionId does not exist: " + Long.toString(editionId);
-
         if (!eventEditionRepository.existsById(editionId)) {
             return ResponseEntity.notFound().build();
         }

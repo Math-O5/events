@@ -4,11 +4,9 @@ package com.event.backevents.domain.model;
 import com.event.backevents.api.exceptionhandler.NoAvailableTicketException;
 import com.event.backevents.api.exceptionhandler.TicketException;
 import com.event.backevents.domain.model.status.StatusTicket;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ser.Serializers;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +27,8 @@ public class Ticket extends BaseEntity {
     @OneToOne(mappedBy = "ticket")
     private Review review;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Enumerated
     private StatusTicket statusTicket;
 
     public void useTicket() {

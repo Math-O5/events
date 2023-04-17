@@ -13,6 +13,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@SuperBuilder
 public class Event extends BaseEntity {
 
     @Column(nullable = false)

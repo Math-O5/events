@@ -3,6 +3,7 @@ package com.event.backevents.domain.model;
 import com.event.backevents.api.exceptionhandler.NoAvailableTicketException;
 import com.event.backevents.api.model.LocationDto;
 import com.event.backevents.domain.model.status.StatusTicket;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.OffsetDateTime;
 import java.util.*;
 
 @Entity
@@ -27,6 +29,7 @@ public class EventEdition extends BaseEntity {
     private Integer qtdTickets;
     private Integer qtdLockedTickets;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Float rate;
 
     @OneToMany(mappedBy = "eventEdition", cascade = CascadeType.ALL)
@@ -39,7 +42,11 @@ public class EventEdition extends BaseEntity {
     @Embedded
     Location location;
 
+    private OffsetDateTime initDate;
+    private OffsetDateTime endDate;
+
     public String toString() {
+
         return "EventEdition{" +
                 "name='" + name + '\'' +
                 ", desc='" + descricao + '\'' +

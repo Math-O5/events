@@ -21,15 +21,18 @@ public class EventEditionAssembler {
 
     public EventEditionDto toModel(EventEdition event) {
 
-        modelMapper = new ModelMapper();
+//        modelMapper = new ModelMapper();
 
-        TypeMap<EventEdition, EventEditionDto> propertyMapper = modelMapper.createTypeMap(EventEdition.class, EventEditionDto.class);
+        TypeMap<EventEdition, EventEditionDto> propertyMapper = this.modelMapper.createTypeMap(EventEdition.class, EventEditionDto.class);
 
         propertyMapper.addMappings(
                 mapper -> mapper.map(src -> src.getLocation(), EventEditionDto::setLocation)
         );
 
-        return modelMapper.map(event, EventEditionDto.class);
+//        return propertyMapper.map(event, EventEditionDto.class);
+    //    modelMapper.typeMap(EventEdition.class, EventEditionDto.class).addMapping(EventEdition::getLocation, EventEditionDto::setLocationDto);
+
+        return this.modelMapper.map(event, EventEditionDto.class);
 
     }
 
