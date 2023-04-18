@@ -4,6 +4,8 @@ package com.event.backevents.api.controllers;
 import com.event.backevents.api.assembler.EventAssembler;
 import com.event.backevents.api.assembler.EventEditionAssembler;
 import com.event.backevents.api.model.EventEditionDto;
+import com.event.backevents.api.model.input.KmOrMiles;
+import com.event.backevents.api.model.input.SearchInput;
 import com.event.backevents.domain.model.EventEdition;
 import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.EventEditionRepository;
@@ -18,9 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-
 
 @AllArgsConstructor
 @RestController
@@ -63,12 +65,14 @@ public class EventEditionController {
 
     @GetMapping("edition/nearby")
     public ResponseEntity<List<EventEditionDto>> editionsNearByUserId(@RequestParam(value = "userId") Long userId,
-                                                                      @RequestParam(value = "distance", defaultValue = "10") Integer dist,
+                                                                      @RequestParam(value = "init") OffsetDateTime init,
+                                                                      @RequestParam(value = "end") OffsetDateTime end,
+                                                                      @RequestParam(value = "distance", defaultValue = "10") Float dist,
                                                                       @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                                       @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
 
-        Page<EventEdition> editionPage = buscaEventEditionService.eventNearByUser(userId, dist,page, size).get();
+        Page<EventEdition> editionPage = buscaEventEditionService.eventNearByUser(new SearchInput(userId, init, end, dist, page, size, KmOrMiles.KM)).get();
 
         return ResponseEntity.ok(eventEditionAssembler.toCollectionModel(editionPage.getContent()));
     }
