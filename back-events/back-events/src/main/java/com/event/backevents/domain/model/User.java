@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor
-@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
+@Data
 @Table(name = "users")
+@SuperBuilder
 public class User extends BaseEntity {
 
     private String name;

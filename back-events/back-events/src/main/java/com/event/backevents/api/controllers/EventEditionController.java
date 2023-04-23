@@ -4,6 +4,8 @@ package com.event.backevents.api.controllers;
 import com.event.backevents.api.assembler.EventAssembler;
 import com.event.backevents.api.assembler.EventEditionAssembler;
 import com.event.backevents.api.model.EventEditionDto;
+import com.event.backevents.api.model.input.KmOrMiles;
+import com.event.backevents.api.model.input.SearchInput;
 import com.event.backevents.domain.model.EventEdition;
 import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.EventEditionRepository;
@@ -13,29 +15,39 @@ import com.event.backevents.domain.service.BuscaEventEditionService;
 import com.event.backevents.domain.service.CatalogoEventEditionService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-
 
 @AllArgsConstructor
 @RestController
 public class EventEditionController {
 
+    @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
     private EventAssembler eventAssembler;
 
+    @Autowired
     private EventEditionRepository eventEditionRepository;
 
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private CatalogoEventEditionService catalogoEventEditionService;
+
+    @Autowired
     private EventEditionAssembler eventEditionAssembler;
 
+    @Autowired
     private BuscaEventEditionService buscaEventEditionService;
 
     @GetMapping("/edition")
@@ -63,12 +75,13 @@ public class EventEditionController {
 
     @GetMapping("edition/nearby")
     public ResponseEntity<List<EventEditionDto>> editionsNearByUserId(@RequestParam(value = "userId") Long userId,
-                                                                      @RequestParam(value = "distance", defaultValue = "10") Integer dist,
+                                                                      @RequestParam(value = "init") OffsetDateTime init,
+                                                                      @RequestParam(value = "distance", defaultValue = "10") Float distance,
                                                                       @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                                       @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
 
-        Page<EventEdition> editionPage = buscaEventEditionService.eventNearByUser(userId, dist,page, size).get();
+        Page<EventEdition> editionPage = buscaEventEditionService.eventNearByUser(new SearchInput(userId, init, distance, page, size, KmOrMiles.KM)).get();
 
         return ResponseEntity.ok(eventEditionAssembler.toCollectionModel(editionPage.getContent()));
     }
@@ -89,6 +102,20 @@ public class EventEditionController {
         }
 
         EventEdition scheduledEvent = catalogoEventEditionService.marcar(eventId, eventEdition);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventEditionAssembler.toModel(scheduledEvent));
+    }
+
+    @PatchMapping("/events/{eventId}/edition/{editionId}")
+    public ResponseEntity<EventEditionDto> updateEvent(@PathVariable Long editionId, @Valid @RequestBody EventEdition updateEventEdition) {
+
+        if (!eventRepository.existsById(editionId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        EventEdition eventEdition = eventEditionRepository.getById(editionId);
+
+        EventEdition scheduledEvent = catalogoEventEditionService.marcar(editionId, eventEdition);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(eventEditionAssembler.toModel(scheduledEvent));
     }
