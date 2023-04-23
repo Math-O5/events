@@ -14,6 +14,7 @@ import com.event.backevents.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +24,17 @@ import java.util.Optional;
 @Service
 @Data
 public class CatalogoTicketService {
+
+    @Autowired
     private final TicketRepository ticketRepository;
+
+    @Autowired
     private final EventRepository eventRepository;
+
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final EventEditionRepository eventEditionRepository;
 
     public List<Ticket> findAll() {
@@ -57,6 +66,11 @@ public class CatalogoTicketService {
                 .orElseThrow(() -> new NoAvailableTicketException("No ticket booked for user in this edition."));
 
         return reservedTicket;
+    }
+
+    @Transactional
+    public void cancelTickets(List<Ticket> tickets) {
+
     }
 
     @Transactional

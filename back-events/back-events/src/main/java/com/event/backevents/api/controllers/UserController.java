@@ -1,6 +1,11 @@
 package com.event.backevents.api.controllers;
 
+import com.event.backevents.api.assembler.EventAssembler;
+import com.event.backevents.api.assembler.TicketAssembler;
 import com.event.backevents.api.assembler.UserAssembler;
+import com.event.backevents.api.model.EventDto;
+import com.event.backevents.api.model.EventEditionDto;
+import com.event.backevents.api.model.TicketDto;
 import com.event.backevents.api.model.UserDto;
 import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.service.CatalogoUserService;
@@ -17,9 +22,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     private final CatalogoUserService catalogoUserService;
     private final UserRepository userRepository;
     private UserAssembler userAssembler;
+    private EventAssembler eventAssembler;
+    private final TicketAssembler ticketAssembler;
 
     @GetMapping
     public List<UserDto> listPublisher() {
@@ -37,6 +45,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> searchPublisher(@PathVariable Long userId) {
+
         if (!userRepository.existsById(userId)) {
             return ResponseEntity.notFound().build();
         }
@@ -44,6 +53,30 @@ public class UserController {
         return userRepository.findById(userId)
                                     .map(publisher -> ResponseEntity.ok(userAssembler.toModel(publisher)))
                                     .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{userId}/events")
+    public ResponseEntity<List<EventDto>> searchPublisherEvents(@PathVariable Long userId) {
+
+        if (!userRepository.existsById(userId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return userRepository.findById(userId)
+                             .map(publisher -> ResponseEntity.ok(eventAssembler.toCollectionModel(publisher.getEventCollection())))
+                             .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{userId}/tickets")
+    public ResponseEntity<List<TicketDto>> searchPublisherTickets(@PathVariable Long userId) {
+
+        if (!userRepository.existsById(userId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return userRepository.findById(userId)
+                .map(publisher -> ResponseEntity.ok(ticketAssembler.toCollectionModel(publisher.getTicketList())))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{publisherId}")
@@ -59,22 +92,37 @@ public class UserController {
         return ResponseEntity.ok(userAssembler.toModel(user));
     }
 
-//    @PostMapping("/{publisherId}/event")
-//    public ResponseEntity<User> addEventToPublisher(@PathVariable Long publisherId,
-//                                                     @Valid @RequestBody Event event) {
-//        if (!userRepository.existsById(publisherId)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        publisher.setId(publisherId);
-//        publisher = catalogoUserService.save(publisher);
-//
-//        return ResponseEntity.ok(publisher);
-//    }
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UserDto> patchPublisher(@PathVariable Long userId,
+                                                   @Valid @RequestBody User updateUser) {
+
+        if (userRepository.findById(userId).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = userRepository.findById(userId).get();
+
+        if(updateUser.getName() != null) {
+            user.setName(updateUser.getName());
+        }
+
+        if(updateUser.getLocation() != null) {
+            user.setLocation(updateUser.getLocation());
+        }
+
+        if(updateUser.getCpf() != null) {
+            user.setCpf(updateUser.getCpf());
+        }
+
+        user = catalogoUserService.add(user);
+
+        return ResponseEntity.ok(userAssembler.toModel(user));
+    }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long userId) {
-        if (!userRepository.existsById(userId)) { 
+
+        if (!userRepository.existsById(userId)) {
             return ResponseEntity.notFound().build();
         }
 

@@ -7,19 +7,26 @@ import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.EventEditionRepository;
 import com.event.backevents.domain.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class BuscaEventEditionService {
+
+    @Autowired
     private EventEditionRepository eventEditionRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     public Optional<Page<EventEdition>> eventNearByUser(SearchInput searchInput) {
@@ -29,6 +36,11 @@ public class BuscaEventEditionService {
         int size = searchInput.getSize();
         Float distance = searchInput.getDistance();
         KmOrMiles kmOrMiles = searchInput.getKmOrMiles();
+        OffsetDateTime init = searchInput.getInitDate();
+
+        if(init.isAfter(OffsetDateTime.now())) {
+            throw new RuntimeException("The date is expired.");
+        }
 
         Optional<User> user = userRepository.findById(userId);
 
@@ -44,6 +56,6 @@ public class BuscaEventEditionService {
                 Sort.Direction.ASC,
                 "name");
 
-        return eventEditionRepository.findAllByLocationPagination(lat, lng, distance, kmOrMiles.toNumber(), OffsetDateTime.now(), pageRequest);
+        return eventEditionRepository.findAllByLocationPagination(lat, lng, distance, kmOrMiles.toNumber(), init, pageRequest);
     }
 }

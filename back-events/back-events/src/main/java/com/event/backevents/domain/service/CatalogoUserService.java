@@ -5,6 +5,7 @@ import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,10 @@ import java.util.Optional;
 @Service
 public class CatalogoUserService {
 
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final GeoLocationServiceImpl geoLocationService;
 
     public User findById(Long userId) {

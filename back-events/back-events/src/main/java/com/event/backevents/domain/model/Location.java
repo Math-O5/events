@@ -2,12 +2,14 @@ package com.event.backevents.domain.model;
 
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.awt.*;
 
-@Getter @Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class Location {
     @NotBlank

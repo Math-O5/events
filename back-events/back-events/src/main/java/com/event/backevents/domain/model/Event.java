@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@Data
+@SuperBuilder
 public class Event extends BaseEntity {
 
     @Column(nullable = false)
@@ -30,7 +32,7 @@ public class Event extends BaseEntity {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventEdition> eventEditionCollection = new ArrayList<>();
 
-    public EventEdition createNewEventEdition(Event event, EventEdition eventEdition) {
+    public EventEdition createNewEventEdition(EventEdition eventEdition) {
         EventEdition newEventEdition = new EventEdition();
         newEventEdition.setName(eventEdition.getName());
         newEventEdition.setDescricao(eventEdition.getDescricao());
@@ -42,6 +44,8 @@ public class Event extends BaseEntity {
         System.out.println(this.getEventEditionCollection().toString());
 
         // default values
+        newEventEdition.setInitDate(eventEdition.getInitDate());
+        newEventEdition.setEndDate(eventEdition.getEndDate());
         newEventEdition.setQtdLockedTickets(0);
         newEventEdition.setRate(0f);
 

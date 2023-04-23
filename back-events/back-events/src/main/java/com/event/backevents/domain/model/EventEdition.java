@@ -7,10 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
@@ -18,7 +15,7 @@ import java.util.*;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor
-@Getter @Setter
+@Data
 public class EventEdition extends BaseEntity {
 
     @Column(nullable = false)
@@ -44,10 +41,10 @@ public class EventEdition extends BaseEntity {
     @Embedded
     private Location location;
 
-    @Valid @NotBlank
+    @Column(nullable = false)
     private OffsetDateTime initDate;
 
-    @Valid @NotBlank
+    @Column(nullable = false)
     private OffsetDateTime endDate;
 
     public String toString() {
@@ -89,4 +86,7 @@ public class EventEdition extends BaseEntity {
         return ticket;
     }
 
+    public List<Ticket> getTicketList() {
+        return ticketList;
+    }
 }

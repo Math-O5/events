@@ -10,20 +10,33 @@ import com.event.backevents.domain.service.CatalogoEventService;
 import com.event.backevents.domain.service.MarcarEventService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 @RestController
 @RequestMapping("/events")
 public class EventController {
-    private final CatalogoEventService catalogoEventService;
-    private final EventRepository eventRepository;
+
+    @Autowired
+    private CatalogoEventService catalogoEventService;
+
+    @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
     private UserRepository userRepository;
-    private final MarcarEventService marcarEventService;
+
+    @Autowired
+    private MarcarEventService marcarEventService;
+
+    @Autowired
     private EventAssembler eventAssembler;
 
     @GetMapping
@@ -63,6 +76,33 @@ public class EventController {
         }
 
         event.setId(eventId);
+        event = catalogoEventService.save(event);
+
+        return ResponseEntity.ok(eventAssembler.toModel(event));
+    }
+
+    @PatchMapping("/{eventId}")
+    public ResponseEntity<EventDto> patchEvent(@PathVariable Long eventId,
+                                                @Valid @RequestBody Event updateEvent) {
+
+        if (!eventRepository.existsById(eventId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Event event = eventRepository.getById(eventId);
+
+        if(updateEvent.getName() != null) {
+            event.setName(updateEvent.getName());
+        }
+
+        if(updateEvent.getIsActive() != null) {
+            event.setIsActive(updateEvent.getIsActive());
+        }
+
+        if(updateEvent.getDescricao() != null) {
+            event.setDescricao(updateEvent.getDescricao());
+        }
+
         event = catalogoEventService.save(event);
 
         return ResponseEntity.ok(eventAssembler.toModel(event));
