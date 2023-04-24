@@ -39,6 +39,8 @@ public class User extends BaseEntity {
         newEvent.setName(event.getName());
         newEvent.setCodeName(event.getCodeName());
         newEvent.setUser(this);
+        newEvent.setDescricao(event.getDescricao());
+
         this.getEventCollection().add(newEvent);
 
         // default values

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor @NoArgsConstructor
 @Component
@@ -38,7 +39,12 @@ public class EditionExpirationTask {
 
         OffsetDateTime currentDate = OffsetDateTime.now();
 
-        List<EventEdition> editionList = eventEditionRepository.findExpiredEditions(currentDate).get();
+        Optional<List<EventEdition>> editionListOp = eventEditionRepository.findExpiredEditions(currentDate);
+
+        if(editionListOp.isEmpty())
+            return;
+
+        List<EventEdition> editionList = editionListOp.get();
 
         // update the status of the expired items
         editionList.stream().forEach(event -> {

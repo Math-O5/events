@@ -2,12 +2,14 @@ package com.event.backevents.api.controllers;
 
 import com.event.backevents.api.assembler.EventAssembler;
 import com.event.backevents.api.exceptionhandler.ResourceNotFoundException;
+import com.event.backevents.api.exceptionhandler.RestResponseEntityExceptionHandler;
 import com.event.backevents.api.model.EventDto;
 import com.event.backevents.domain.model.Event;
 import com.event.backevents.domain.repository.EventRepository;
 import com.event.backevents.domain.repository.UserRepository;
 import com.event.backevents.domain.service.CatalogoEventService;
 import com.event.backevents.domain.service.MarcarEventService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,11 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor
 @RestController
+@Data
 @RequestMapping("/events")
 public class EventController {
 
@@ -39,24 +43,27 @@ public class EventController {
     @Autowired
     private EventAssembler eventAssembler;
 
+    @Operation(summary = "Get all events")
     @GetMapping
     public List<EventDto> listEvents() {
         return eventAssembler.toCollectionModel(eventRepository.findAll());
     }
 
+    @Operation(summary = "Create a event")
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public EventDto addEvent(@Valid @RequestBody Event event) {
+    public ResponseEntity<EventDto> addEvent(@Valid @RequestBody Event event) {
+
 
         if (!userRepository.existsById(event.getUser().getId())) {
-            throw new ResourceNotFoundException("This user does not exist");
+            throw new ResourceNotFoundException("This user does not exist.", null, true, false);
         }
 
         Event scheduledEvent = this.marcarEventService.marcar(event);
 
-        return eventAssembler.toModel(scheduledEvent);
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventAssembler.toModel(scheduledEvent));
     }
 
+    @Operation(summary = "Search an event by its id.")
     @GetMapping("/{eventId}")
     public ResponseEntity<EventDto> searchClient(@PathVariable Long eventId) {
         if (!eventRepository.existsById(eventId)) {
@@ -68,6 +75,7 @@ public class EventController {
                                     .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Update an event by its id.")
     @PutMapping("/{eventId}")
     public ResponseEntity<EventDto> updateEvent(@PathVariable Long eventId,
                                              @Valid @RequestBody Event event) {
@@ -81,6 +89,7 @@ public class EventController {
         return ResponseEntity.ok(eventAssembler.toModel(event));
     }
 
+    @Operation(summary = "Update one or more field(s) of event by its id.")
     @PatchMapping("/{eventId}")
     public ResponseEntity<EventDto> patchEvent(@PathVariable Long eventId,
                                                 @Valid @RequestBody Event updateEvent) {
@@ -108,6 +117,7 @@ public class EventController {
         return ResponseEntity.ok(eventAssembler.toModel(event));
     }
 
+    @Operation(summary = "Delete an event by it's id.")
     @DeleteMapping("/{eventId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
         if (!eventRepository.existsById(eventId)) {

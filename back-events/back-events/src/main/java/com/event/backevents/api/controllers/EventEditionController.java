@@ -3,6 +3,7 @@ package com.event.backevents.api.controllers;
 
 import com.event.backevents.api.assembler.EventAssembler;
 import com.event.backevents.api.assembler.EventEditionAssembler;
+import com.event.backevents.api.exceptionhandler.ResourceNotFoundException;
 import com.event.backevents.api.model.EventEditionDto;
 import com.event.backevents.api.model.input.KmOrMiles;
 import com.event.backevents.api.model.input.SearchInput;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -97,9 +99,8 @@ public class EventEditionController {
     @PostMapping("/events/{eventId}/edition")
     public ResponseEntity<EventEditionDto> addEvent(@PathVariable Long eventId, @Valid @RequestBody EventEdition eventEdition) {
 
-        if (!eventRepository.existsById(eventId)) {
-            return ResponseEntity.notFound().build();
-        }
+        eventRepository.findById(eventId)
+                        .orElseThrow(() -> new ResourceNotFoundException("This user does not exist.", null, true, false));
 
         EventEdition scheduledEvent = catalogoEventEditionService.marcar(eventId, eventEdition);
 

@@ -26,7 +26,7 @@ public class GeoLocationServiceImpl {
     public Optional<Location> getGeoCodingForLoc(Location locationParam) {
         RestTemplate restTemplate = new RestTemplate();
         Optional<Location> location = Optional.empty();
-        String address = locationParam.getStreet() + '+' + locationParam.getCity() + '+' + locationParam.getState();
+        String address = locationParam.toLocationSearch();
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(GEOCODING_URI).queryParam("address", address)
                 .queryParam("key", env.getProperty("apiKey"));

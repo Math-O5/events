@@ -31,4 +31,11 @@ public class Location {
 
     private Double lat;
     private Double lng;
+
+    public String toLocationSearch() {
+        String concated = this.getStreet().strip() +
+                '+' + this.getCity().strip() + '+'
+                + this.getState();
+        return concated.strip().replace(" ", "+");
+    }
 }

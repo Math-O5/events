@@ -10,6 +10,7 @@ import com.event.backevents.api.model.UserDto;
 import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.service.CatalogoUserService;
 import com.event.backevents.domain.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,11 +30,13 @@ public class UserController {
     private EventAssembler eventAssembler;
     private final TicketAssembler ticketAssembler;
 
+    @Operation(summary = "Get a list with all users.")
     @GetMapping
     public List<UserDto> listPublisher() {
         return userAssembler.toCollectionModel(userRepository.findAll());
     }
 
+    @Operation(summary = "Create an user")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto addPublisher(@Valid @RequestBody User user) {

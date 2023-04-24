@@ -1,5 +1,7 @@
 package com.event.backevents.domain.service;
 
+import com.event.backevents.api.exceptionhandler.ResourceNotFoundException;
+import com.event.backevents.api.exceptionhandler.ResourceRepeatedException;
 import com.event.backevents.common.googleGeoLocation.GeoLocationServiceImpl;
 import com.event.backevents.domain.model.User;
 import com.event.backevents.domain.repository.UserRepository;
@@ -23,7 +25,7 @@ public class CatalogoUserService {
 
     public User findById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new Error("User não encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("User não encontrado."));
     }
 
     public List<User> findAll() {
@@ -48,7 +50,7 @@ public class CatalogoUserService {
                 .anyMatch(PubliherCreated -> !PubliherCreated.equals(user));
 
         if(nameAlreadyPicked) {
-            throw new Error("Esse nome  já está em uso");
+            throw new ResourceRepeatedException("Esse nome  já está em uso");
         }
 
         // Call getGeoCoding to retrieve latitude and longitude

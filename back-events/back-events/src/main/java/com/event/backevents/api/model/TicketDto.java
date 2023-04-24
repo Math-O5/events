@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TicketDto {
+    private Long id;
     private EventEditionIdDto eventEdition;
     private UserIdDto user;
     private Review review;

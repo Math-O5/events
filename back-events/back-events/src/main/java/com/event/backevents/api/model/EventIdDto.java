@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EventIdDto {
-    private Long Id;
+    private Long id;
 }
